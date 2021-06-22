@@ -10,14 +10,14 @@
     + [Players and IDs](#Playes-and-IDs)
     + [Calling timeout](#Calling-timeout)
   * [Normalizing the Data](#Normalizing-the-Data)
-    + [NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores](#NanNanNaNa,-Hey,-Hey,-Good-bye:-Calculating-z-scores)
-    + [Quantity & Quality: The Percent-Volume Problem](#Quantity-&-Quality:-The-Percent-Volume-Problem)
+    + [NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores](#nannannana-hey-hey-good-bye-calculating-z-scores)
+    + [Quantity & Quality: The Percent-Volume Problem](#quantity--quality-the-percent-volume-problem)
     + [The Less-Is-More Problem](#The-Less-Is-More-Problem)
     + [Overall (and eventually Overmost) Value](#Overall-and-eventually-Overmost-Value)
   * [Future-Me Problems](#Future-Me-Problems)
     + [Building the Punt Function](#Building-the-Punt-Function)
-    + [Opponent Rater](#Opponent Rater)
-    + [The Backpack Problem: Optimum Draft by Draft Position](#The-Backpack-Problem:-Optimum-Draft-by-Draft-Position)
+    + [Opponent Rater](#Opponent-Rater)
+    + [The Backpack Problem: Optimum Draft by Draft Position](#The-Backpack-Problem-Optimum-Draft-by-Draft-Position)
  - [Link to the Dashboard](#Link-to-the-Dashboard)
 
 ## Motivation
