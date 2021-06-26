@@ -54,7 +54,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ### Getting the Data
 
-![Data_Retrieval](data_retrieval.png)
+![Data_Retrieval](C:\Users\jrior\Documents\NSS\student\DA4\projects\fantasy_basketball_researcher\data_retrieval.png)
 
 #### Is this an API?
 #### Players and IDs
