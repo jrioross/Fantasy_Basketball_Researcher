@@ -54,7 +54,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ### Getting the Data
 
-![Data_Retrieval](C:\Users\jrior\Documents\NSS\student\DA4\projects\fantasy_basketball_researcher\data_retrieval.png)
+![Data_Retrieval](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/data_retrieval.png)
 
 #### Is this an API?
 #### Players and IDs
@@ -62,7 +62,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ### Normalizing the Data
 
-![Calculations](calculations.png)
+![Calculations](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/calculations.png)
 
 #### NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores
 #### Quantity & Quality: The Percent-Volume Problem
@@ -74,7 +74,7 @@ For the actual dashboard, I use Power BI. It's fine.
 #### Building the Punt Function
 #### Opponent Rater
 
-![Data_Prep](data_prep.png)
+![Data_Prep](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/data_prep.png)
 
 #### The Backpack Problem: Optimum Draft by Draft Position
 
