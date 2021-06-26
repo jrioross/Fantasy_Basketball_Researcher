@@ -6,7 +6,6 @@
 - [Technologies](#Technologies)
 - [Problems & Hurdles](#Problems-&-Hurdles)
   * [Getting the Data](#Getting-the-Data)
-    + [Is this an API?](#Is-this-an-API?)
     + [Players and IDs](#Playes-and-IDs)
     + [Calling timeout](#Calling-timeout)
   * [Normalizing the Data](#Normalizing-the-Data)
@@ -56,9 +55,13 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ![Data_Retrieval](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/data_retrieval.png)
 
-#### Is this an API?
 #### Players and IDs
+
+Several people have developed API-like interfaces with NBA.com. For this project, I used probably the most popular of these interfaces, which is NBA-API. NBA-API has a series of commands that retrieve select batches of information from the NBA's data. These commands typically retrieve one player's data or one team's data at a time, and they do this by referencing specific player ids or team ids as assigned by NBA.com. I therefore created a dictionary of player ids and player full names, then used the player ids of this dictionary within a loop to request data for every player--specifically, getting each player's game logs for the 2020-2021 season. Those data requests were collected into a list, which was in turn converted to a dataframe.
+
 #### Calling timeout
+
+There was one major hiccup in this process. NBA.com has an (undisclosed) limit to the number of requests someone can make within a timeframe, so my first several attempts to run this loop timed out. I therefore had to include a line telling the loop to pause for 0.600 seconds after each call, which makes the request rate slow enough to not overrun NBA.com's server--but it also makes the overall dataframe construction take 5 - 10 minutes. To avoid waiting on this every time I want to work in Python, I saved the initial player logs dataframe to a csv, commented out the loop code, and drew from the csv for later work. During the regular season, however, I would have to run the loop query daily to gather up-to-date data.
 
 ### Normalizing the Data
 
@@ -80,4 +83,4 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ## Link to the Dashboard
 
-https://app.powerbi.com/groups/me/reports/b555acbc-b18b-408e-934d-96d2e330c973?ctid=101da587-1843-4f52-8b8a-17b069c66d33&pbi_source=linkShare
+https://app.powerbi.com/view?r=eyJrIjoiOTAwNjcxNDUtMzY4OS00OTcyLWE3NzMtZjQ3ZTFmOTdmNzk0IiwidCI6IjEwMWRhNTg3LTE4NDMtNGY1Mi04YjhhLTE3YjA2OWM2NmQzMyIsImMiOjJ9
