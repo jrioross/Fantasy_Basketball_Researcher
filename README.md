@@ -54,7 +54,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ### Getting the Data
 
-![Data Retrieval Code](data_retrieval.png)
+![Data Retrieval Code](../data_retrieval.png)
 
 #### Is this an API?
 #### Players and IDs
@@ -62,7 +62,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 ### Normalizing the Data
 
-![Calculation Code](calculations.png)
+![Calculation Code](../calculations.png)
 
 #### NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores
 #### Quantity & Quality: The Percent-Volume Problem
@@ -74,7 +74,7 @@ For the actual dashboard, I use Power BI. It's fine.
 #### Building the Punt Function
 #### Opponent Rater
 
-![Data Prep](data_prep.png)
+![Data Prep](../data_prep.png)
 
 #### The Backpack Problem: Optimum Draft by Draft Position
 
