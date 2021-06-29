@@ -7,16 +7,12 @@
 - [Problems & Hurdles](#Problems-&-Hurdles)
   * [Getting the Data](#Getting-the-Data)
     + [Players and IDs](#Playes-and-IDs)
-    + [Calling timeout](#Calling-timeout)
+    + [Calling Timeout](#Calling-Timeout)
   * [Normalizing the Data](#Normalizing-the-Data)
     + [NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores](#nannannana-hey-hey-good-bye-calculating-z-scores)
     + [Quantity & Quality: The Percent-Volume Problem](#quantity--quality-the-percent-volume-problem)
     + [The Less-Is-More Problem](#The-Less-Is-More-Problem)
-    + [Overall (and eventually Overmost) Value](#Overall-and-eventually-Overmost-Value)
-  * [Future-Me Problems](#Future-Me-Problems)
-    + [Building the Punt Function](#Building-the-Punt-Function)
-    + [Opponent Rater](#Opponent-Rater)
-    + [The Backpack Problem: Optimum Draft by Draft Position](#The-Backpack-Problem-Optimum-Draft-by-Draft-Position)
+    + [Overall (and Overmost) Value](#Overall-and-Overmost-Value)
  - [Link to the Dashboard](#Link-to-the-Dashboard)
 
 ## Motivation
@@ -59,7 +55,7 @@ For the actual dashboard, I use Power BI. It's fine.
 
 Several people have developed API-like interfaces with NBA.com. For this project, I used probably the most popular of these interfaces, which is NBA-API. NBA-API has a series of commands that retrieve select batches of information from the NBA's data. These commands typically retrieve one player's data or one team's data at a time, and they do this by referencing specific player ids or team ids as assigned by NBA.com. I therefore created a dictionary of player ids and player full names, then used the player ids of this dictionary within a loop to request data for every player--specifically, getting each player's game logs for the 2020-2021 season. Those data requests were collected into a list, which was in turn converted to a dataframe.
 
-#### Calling timeout
+#### Calling Timeout
 
 There was one major hiccup in this process. NBA.com has an (undisclosed) limit to the number of requests someone can make within a timeframe, so my first several attempts to run this loop timed out. I therefore had to include a line telling the loop to pause for 0.600 seconds after each call, which makes the request rate slow enough to not overrun NBA.com's server--but it also makes the overall dataframe construction take 5 - 10 minutes. To avoid waiting on this every time I want to work in Python, I saved the initial player logs dataframe to a csv, commented out the loop code, and drew from the csv for later work. During the regular season, however, I would have to run the loop query daily to gather up-to-date data.
 
@@ -68,19 +64,30 @@ There was one major hiccup in this process. NBA.com has an (undisclosed) limit t
 ![Calculations](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/calculations.png)
 
 #### NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores
+
+Z-scores are the heart of this project. We don't always know offhand whether 15 rebounds in a game is more impressive than 20 points (it is). The common statistical approach to normalizing different categories is z-scores, which account for a distribution's mean and spread (standard deviation). This is especially important for calculating overall player values. In this case, I'll calculate a player's overall value as a mean of their category z-scores.
+
+As it turns out, order of operations matters here. I'm beginning with the game logs from 2020-2021 for all NBA players. I get the mean for each of the fantasy-basketball categories. From there, I have two options for determining each player's value in each category:
+
+  1. I can get each player's season averages for each category, called the "season" dataframe. Once I have all of those, I can calculate the z-scores from the set of player averages for each category.
+  2. Alternatively, starting from the player logs, I can get the league per-game mean for all games for each category, then calculate the z-score for all the categories in each player game log. Finally, for each category for each player, I aggregate a mean z-score per game.
+
+I chose to use option 2 for this project, primarily because the format of option to facilitated punting categories (described below) and filtering player stats by timeframe using game dates from the game logs.
+
 #### Quantity & Quality: The Percent-Volume Problem
+
+Beyond calculating z-scores, the other mathematically intensive component of this project was evaluating a player’s field-goal and free-throw percentage contributions. While counting stats stand alone in their values, a player’s percentage contributions depend both upon percentage and volume. One can’t simply multiply the percentage by the volume, amounting to measuring quantity of free throws made or field goals made, because that might misconstrue bad free throw shooters or inefficient players as high contributors, when really they are high-volume bad contributors. To account for this, I created the measures “FG_CONTRIB” and “FT_CONTRIB”, each of which estimate how much having that player improves the overall field-goal or free-throw percentage of a fantasy team otherwise populated with league-average players. The difference between that team’s average compared to the league average is the player’s contribution. With this structure, a high-volume player with very good percentage is likely a greater contributor than a mid-volume player with excellent averages.
+
 #### The Less-Is-More Problem
-#### Overall (and eventually Overmost) Value
 
-### Future-Me Problems
+A simpler problem to overcome was that of turnover contribution. Turnovers are the only counting category where one wants lower rather than higher numbers. To account for this, players’ turnovers were multiplied by -1 before being figured into z-score calculations. These values were labeled “TOV_CONTRIB”.
 
-#### Building the Punt Function
-#### Opponent Rater
+#### Overall (and Overmost) Value
 
-![Data_Prep](https://github.com/jrioross/fantasy_basketball_researcher/blob/main/images/data_prep.png)
+While a player’s overall value is calculated as the mean of his category z-scores, the skilled fantasy-basketball manager typically doesn’t build a team to win all 9 categories. Since a matchup is won if the manager wins 5 or more categories, they often choose to “punt“ one or more categories, meaning disregarding those categories when constructing a roster. This, in turn, changes how the manager evaluates players.
 
-#### The Backpack Problem: Optimum Draft by Draft Position
+One important step for this project was therefore ensuring that the data is represented in long format for their *Overall* page of the dashboard so that certain categories could be filtered out of players’ overall average. (the pd.melt() method was handy for this.) As an example, when all categories are considered, Giannis Antetokounmpo, a famously bad (and high-volume!) free-throw shooter, is not in the top ten players in full-season overall value; however, when punting free throws, his value soars to number two overall. 
 
 ## Link to the Dashboard
 
-https://app.powerbi.com/view?r=eyJrIjoiOTAwNjcxNDUtMzY4OS00OTcyLWE3NzMtZjQ3ZTFmOTdmNzk0IiwidCI6IjEwMWRhNTg3LTE4NDMtNGY1Mi04YjhhLTE3YjA2OWM2NmQzMyIsImMiOjJ9
+[Fantasy Basketball Researcher](https://app.powerbi.com/view?r=eyJrIjoiNDRjMGQ0NTQtNmIwYy00OGRiLTkwNTQtMjRiYTU0NjBiNGRlIiwidCI6IjEwMWRhNTg3LTE4NDMtNGY1Mi04YjhhLTE3YjA2OWM2NmQzMyIsImMiOjJ9)
