@@ -65,14 +65,14 @@ There was one major hiccup in this process. NBA.com has an (undisclosed) limit t
 
 #### NanNanNaNa, Hey, Hey, Good-bye: Calculating z-scores
 
-Z-scores are the heart of this project. We don't always know offhand whether 15 rebounds in a game is more impressive than 20 points (it is). The common statistical approach to normalizing different categories is z-scores, which account for a distribution's mean and spread (standard deviation). This is especially important for calculating overall player values. In this case, I'll calculate a player's overall value as a mean of their category z-scores.
+Z-scores are the heart of this project. We don't always know offhand whether 15 rebounds in a game is more impressive than 20 points (it is). The common statistical approach to normalizing different categories is z-scores, which account for a distribution's mean and spread (standard deviation). This is especially important for calculating overall player values. In this case, I calculate a player's overall value as a mean of their category z-scores. I originally attempted to use SciPy's zscore function; however, that function doesn't play well with NaNs, so I instead used more fundamental mean and standard deviation functions to calculate the z-scores.
 
 As it turns out, order of operations matters here. I'm beginning with the game logs from 2020-2021 for all NBA players. I get the mean for each of the fantasy-basketball categories. From there, I have two options for determining each player's value in each category:
 
   1. I can get each player's season averages for each category, called the "season" dataframe. Once I have all of those, I can calculate the z-scores from the set of player averages for each category.
   2. Alternatively, starting from the player logs, I can get the league per-game mean for all games for each category, then calculate the z-score for all the categories in each player game log. Finally, for each category for each player, I aggregate a mean z-score per game.
 
-I chose to use option 2 for this project, primarily because the format of option to facilitated punting categories (described below) and filtering player stats by timeframe using game dates from the game logs.
+I chose to use option 2 for this project primarily because the long-table format of option 2 facilitated punting categories (described below) as well as filtering player stats by timeframe.
 
 #### Quantity & Quality: The Percent-Volume Problem
 
@@ -86,7 +86,7 @@ A simpler problem to overcome was that of turnover contribution. Turnovers are t
 
 While a player’s overall value is calculated as the mean of his category z-scores, the skilled fantasy-basketball manager typically doesn’t build a team to win all 9 categories. Since a matchup is won if the manager wins 5 or more categories, they often choose to “punt“ one or more categories, meaning disregarding those categories when constructing a roster. This, in turn, changes how the manager evaluates players.
 
-One important step for this project was therefore ensuring that the data is represented in long format for their *Overall* page of the dashboard so that certain categories could be filtered out of players’ overall average. (the pd.melt() method was handy for this.) As an example, when all categories are considered, Giannis Antetokounmpo, a famously bad (and high-volume!) free-throw shooter, is not in the top ten players in full-season overall value; however, when punting free throws, his value soars to number two overall. 
+One important step for this project was therefore ensuring that the data is represented in long format for their *Overall* page of the dashboard so that certain categories could be filtered out of players’ overall average. (the pd.melt() method was handy for this.) As an example, when all categories are considered, Giannis Antetokounmpo, a famously bad (and high-volume!) free-throw shooter, is not in the top ten players in full-season overall value; however, when punting free throws, his value soars to number two overall.
 
 ## Link to the Dashboard
 
